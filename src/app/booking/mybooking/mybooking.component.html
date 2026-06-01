@@ -41,9 +41,9 @@
 
     <div class="col-xl col-lg col-md col-6">
       <div class="stat-card"
-           (click)="setStatusFilter('Assigned')"
-           [class.active-stat]="activeStatus === 'Assigned'">
-        <h3 class="text-primary">{{ getCount('Assigned') }}</h3>
+           (click)="setStatusFilter('Accepted')"
+           [class.active-stat]="activeStatus === 'Accepted'">
+        <h3 class="text-primary">{{ getCount('Accepted') }}</h3>
         <span>Assigned</span>
       </div>
     </div>
@@ -94,7 +94,7 @@
          'status-progress': b.status === 'In Progress',
          'status-completed': b.status === 'Completed',
          'status-pending': b.status === 'Pending',
-         'status-assigned': b.status === 'Assigned'
+         'status-assigned': b.status === 'Accepted'
        }">
 
     <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
@@ -109,7 +109,7 @@
                 [ngClass]="
                   b.status === 'In Progress' ? 'chip-progress' :
                   b.status === 'Pending' ? 'chip-pending' :
-                  b.status === 'Assigned' ? 'chip-assigned' :
+                  b.status === 'Accepted' ? 'chip-assigned' :
                   'chip-completed'
                 ">
             {{ b.status }}
@@ -158,7 +158,7 @@
         </div>
 
         <button class="btn btn-outline-secondary btn-sm"
-                (click)="contactProvider(b)">
+                (click)="callPhone()">
           📞 Contact
         </button>
 

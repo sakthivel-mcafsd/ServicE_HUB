@@ -76,18 +76,18 @@ export class MybookingComponent implements OnInit {
     this.filteredBookings = statusFiltered.filter(b =>
   (b.service?.toLowerCase().includes(text) || '') ||
   (b.description?.toLowerCase().includes(text) || '')
-);
-
-  }
-
+);}
   // SEARCH
   onSearch(): void {
     this.applyFilter();
   }
 
   // CONTACT
-  contactProvider(booking: Booking): void {
-    console.log('Contact provider', booking.provider);
-  }
+  // contactProvider(booking: Booking): void {
+  //   console.log('Contact provider', booking.provider);
+  // }
+  callPhone() {
+  window.location.href = 'tel:7904272525';
+}
 
 }

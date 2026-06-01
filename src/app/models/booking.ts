@@ -1,4 +1,4 @@
-export type BookingStatus = 'Pending' | 'Assigned' | 'In Progress' | 'Completed';
+export type BookingStatus = 'Pending' | 'Accepted' | 'In Progress' | 'Completed';
 
 export interface Booking {
 
@@ -17,5 +17,9 @@ export interface Booking {
   customer: string;
 
   provider?: string;
+
+  Address?:string;
+  
+  phone?:string;
 
 }

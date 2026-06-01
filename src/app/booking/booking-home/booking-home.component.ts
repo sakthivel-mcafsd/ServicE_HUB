@@ -24,7 +24,7 @@ ngOnInit() {
   }
   
    logout(): void {
-    debugger
+    
     console.log('User logged out');
   }
 }

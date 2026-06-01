@@ -1,33 +1,59 @@
 import { Component, OnInit } from '@angular/core';
-import { BookingService } from '../../services/booking.service';
+import { ProviderService } from '../../services/provider.service';
 
 @Component({
   selector: 'app-my-assigned-bookings',
   templateUrl: './my-assigned-bookings.component.html',
   styleUrls: ['./my-assigned-bookings.component.css']
 })
-
 export class AssignedBookingsComponent implements OnInit {
 
   bookings: any[] = [];
+  selectedFilter: string = 'All';
 
-  constructor(private bookingService: BookingService) {}
+  constructor(private providerService: ProviderService) { }
 
-  ngOnInit() {
-    this.loadBookings();
+  ngOnInit(): void {
+    this.loadMyBookings();
   }
 
-  loadBookings() {
-    this.bookingService.getAssignedBookings()
-      .subscribe((res: any) => {
-        this.bookings = res;
-      });
+  loadMyBookings(): void {
+    this.providerService.getAllMyBookings().subscribe({
+      next: (res: any) => {
+        this.bookings = res?.$values || res || [];
+        console.log(this.bookings)
+      },
+      error: (err) => console.error(err)
+    });
   }
 
-  completeBooking(id: number) {
-    this.bookingService.completeBooking(id)
-      .subscribe(() => {
-        this.loadBookings();
-      });
+  getFilteredBookings() {
+    if (this.selectedFilter === 'All') {
+      return this.bookings;
+    }
+
+    return this.bookings.filter(
+      x => x.status === this.selectedFilter
+    );
+  }
+
+  InProgressBooking(id: number): void {
+    this.providerService.ProgressBooking(id).subscribe({
+      next: () => this.loadMyBookings()
+    });
+  }
+
+  completeBooking(id: number): void {
+    this.providerService.completeBooking(id).subscribe({
+      next: () => this.loadMyBookings()
+    });
+  }
+
+  callPhone(phone: string) {
+    window.location.href = `tel:${phone}`;
+  }
+
+  getCount(status: string): number {
+    return this.bookings.filter(x => x.status === status).length;
   }
 }
