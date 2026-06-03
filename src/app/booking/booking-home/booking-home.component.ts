@@ -10,7 +10,13 @@ export class BookingHomeComponent {
   constructor(private authService:AuthService){}
   user: any;
   userName!:string;
- 
+ toggleMenu() {
+    this.menuOpen = !this.menuOpen;
+  }
+  menuOpen = false;
+  closeMenu() {
+    this.menuOpen = false;
+  }
 ngOnInit() {
   
   this.user = this.authService.getUser();

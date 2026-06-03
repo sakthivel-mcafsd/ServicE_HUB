@@ -9,36 +9,49 @@ import { ProviderService } from '../../services/provider.service';
 export class AvailableBookingsComponent implements OnInit {
 
   bookings: any[] = [];
+  searchText: string = '';
 
   constructor(private providerService: ProviderService) {}
 
   ngOnInit(): void {
-    console.log("AvailableBookings Loaded");
     this.loadBookings();
   }
 
   loadBookings(): void {
-    console.log("Calling API 🔥");
 
     this.providerService.getAvailableBookings().subscribe({
       next: (res: any) => {
-        console.log("API Response 👉", res);
-
-        // 🔥 FIX: handle .NET response
         this.bookings = res?.$values || res || [];
       },
       error: (err) => {
-        console.error("API Error ❌", err);
+        console.error(err);
       }
     });
   }
 
   AcceptBooking(id: number): void {
+
     this.providerService.acceptBooking(id).subscribe({
       next: () => {
-        this.loadBookings(); // refresh
+        this.loadBookings();
       },
-      error: (err) => console.error(err)
+      error: (err) => {
+        console.error(err);
+      }
     });
+
+  }
+
+  filteredBookings() {
+
+    if (!this.searchText) {
+      return this.bookings;
+    }
+
+    return this.bookings.filter(x =>
+      x.service?.toLowerCase().includes(this.searchText.toLowerCase()) ||
+      x.customer?.toLowerCase().includes(this.searchText.toLowerCase()) ||
+      x.description?.toLowerCase().includes(this.searchText.toLowerCase())
+    );
   }
 }

@@ -56,4 +56,25 @@ export class AssignedBookingsComponent implements OnInit {
   getCount(status: string): number {
     return this.bookings.filter(x => x.status === status).length;
   }
+  searchText: string = '';
+
+filteredBookings() {
+
+  let data = this.bookings;
+
+  if (this.selectedFilter !== 'All') {
+    data = data.filter(x => x.status === this.selectedFilter);
+  }
+
+  if (this.searchText.trim()) {
+
+    data = data.filter(x =>
+      x.service?.toLowerCase().includes(this.searchText.toLowerCase()) ||
+      x.customer?.toLowerCase().includes(this.searchText.toLowerCase()) ||
+      x.description?.toLowerCase().includes(this.searchText.toLowerCase())
+    );
+  }
+
+  return data;
+}
 }

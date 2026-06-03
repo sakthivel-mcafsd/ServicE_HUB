@@ -1,156 +1,229 @@
 <div class="dashboard-container">
 
-  <h1 class="title">My Bookings Dashboard</h1>
-  <p class="subtitle">Manage and track your assigned bookings</p>
+  <!-- Header -->
 
-  <!-- Summary Cards -->
+  <div class="header-section">
+    <div class="header-icon">
+      📊
+    </div>
+
+    <div>
+      <h1 class="title">My Bookings Dashboard</h1>
+      <p class="subtitle">
+        Manage and track your assigned bookings
+      </p>
+    </div>
+  </div>
+
+  <!-- SUMMARY CARDS -->
 
   <div class="summary-grid">
 
-    <div class="summary-card primary">
-      <h2>{{ bookings.length }}</h2>
-      <span>Total Assigned Bookings</span>
+    <div
+      class="summary-card"
+      [class.active-purple]="selectedFilter==='All'"
+      (click)="selectedFilter='All'">
+       
+      <div class="card-number">
+        {{ bookings.length }}
+      </div>
+
+      <div class="card-title">
+        Total Assigned Bookings
+      </div>
+
     </div>
 
-    <div class="summary-card">
-      <h2>{{ getCount('Accepted') }}</h2>
-      <span>Accepted</span>
+    <div
+      class="summary-card"
+      [class.active-blue]="selectedFilter==='Accepted'"
+      (click)="selectedFilter='Accepted'">
+
+      <div class="card-number">
+        {{ getCount('Accepted') }}
+      </div>
+
+      <div class="card-title">
+        Accepted Bookings
+      </div>
+
     </div>
 
-    <div class="summary-card">
-      <h2>{{ getCount('In Progress') }}</h2>
-      <span>In Progress</span>
+    <div
+      class="summary-card"
+      [class.active-purple]="selectedFilter==='In Progress'"
+      (click)="selectedFilter='In Progress'">
+
+      <div class="card-number">
+        {{ getCount('In Progress') }}
+      </div>
+
+      <div class="card-title">
+        In Progress Bookings
+      </div>
+
     </div>
 
-    <div class="summary-card">
-      <h2>{{ getCount('Completed') }}</h2>
-      <span>Completed</span>
+    <div
+      class="summary-card"
+      [class.active-green]="selectedFilter==='Completed'"
+      (click)="selectedFilter='Completed'">
+
+      <div class="card-number">
+        {{ getCount('Completed') }}
+      </div>
+
+      <div class="card-title">
+        Completed Bookings
+      </div>
+
     </div>
 
   </div>
 
-  <!-- Filter -->
+  <!-- FILTER -->
 
-  <div class="filter-tabs">
+  <div class="filter-container">
 
     <button
-      [class.active]="selectedFilter=='All'"
+      class="filter-btn"
+      [class.active]="selectedFilter==='All'"
       (click)="selectedFilter='All'">
       All
+      <span>{{ bookings.length }}</span>
     </button>
 
     <button
-      [class.active]="selectedFilter=='Accepted'"
+      class="filter-btn"
+      [class.active]="selectedFilter==='Accepted'"
       (click)="selectedFilter='Accepted'">
       Accepted
+      <span>{{ getCount('Accepted') }}</span>
     </button>
 
     <button
-      [class.active]="selectedFilter=='In Progress'"
+      class="filter-btn"
+      [class.active]="selectedFilter==='In Progress'"
       (click)="selectedFilter='In Progress'">
       In Progress
+      <span>{{ getCount('In Progress') }}</span>
     </button>
 
     <button
-      [class.active]="selectedFilter=='Completed'"
+      class="filter-btn"
+      [class.active]="selectedFilter==='Completed'"
       (click)="selectedFilter='Completed'">
       Completed
+      <span>{{ getCount('Completed') }}</span>
     </button>
 
   </div>
 
-  <!-- Booking Cards -->
+  <!-- SEARCH -->
+
+  <div class="search-container">
+
+    <input
+      type="text"
+      class="search-input"
+      placeholder="Search by service, customer, or description..."
+      [(ngModel)]="searchText">
+
+    <select class="sort-select">
+      <option>Sort by Date</option>
+    </select>
+
+  </div>
+
+  <!-- BOOKINGS -->
 
   <div
     class="booking-card"
-    *ngFor="let booking of getFilteredBookings()">
+    *ngFor="let booking of filteredBookings()">
 
-    <div class="card-header">
+    <div class="top-line"></div>
 
-      <div>
-        <h3>{{ booking.service }}</h3>
-        <p class="description">{{ booking.description }}</p>
+    <div class="booking-content">
+
+      <div class="booking-left">
+
+        <div class="service-row">
+
+          <h3>{{ booking.service }}</h3>
+
+          <span
+            class="status-badge"
+            [ngClass]="{
+              'accepted': booking.status=='Accepted',
+              'progress': booking.status=='In Progress',
+              'completed': booking.status=='Completed'
+            }" style="height: 30px;">
+
+            {{ booking.status }}
+
+          </span>
+
+        </div>
+
+        <p class="description">
+          {{ booking.description }}
+        </p>
+
+        <div class="customer-box">
+          <small>Customer</small>
+          <h5>{{ booking.customer }}</h5>
+        </div>
+
+        <div class="address-box">
+          <small>Address</small>
+          <h5>{{ booking.address }}</h5>
+        </div>
+
+        <div class="info-row">
+
+          <div class="info-box">
+            <small>Date</small>
+            <h5>{{ booking.date }}</h5>
+          </div>
+
+          <div class="info-box">
+            <small>Time</small>
+            <h5>{{ booking.time }}</h5>
+          </div>
+
+        </div>
+
       </div>
 
-      <span
-        class="status-badge"
-        [ngClass]="{
-          'accepted': booking.status=='Accepted',
-          'progress': booking.status=='In Progress',
-          'completed': booking.status=='Completed'
-        }">
+      <div class="action-buttons">
 
-        {{ booking.status }}
+        <button
+          *ngIf="booking.status=='Accepted'"
+          class="start-btn"
+          (click)="InProgressBooking(booking.id)">
+          Start Work
+        </button>
 
-      </span>
+        <button
+          *ngIf="booking.status=='In Progress'"
+          class="complete-btn"
+          (click)="completeBooking(booking.id)">
+          Mark Completed
+        </button>
 
-    </div>
+        <button
+          *ngIf="booking.status=='Completed'"
+          class="finished-btn">
+          Finished
+        </button>
 
-    <!-- Customer -->
+        <button
+          class="contact-btn"
+          (click)="callPhone(booking.phone)">
+          Contact
+        </button>
 
-    <div class="customer-box">
-
-      <div>
-        <small>Customer</small>
-        <h5>{{ booking.customer }}</h5>
       </div>
-
-    </div>
-
-    <!-- Address -->
-
-    <div class="address-box">
-
-      <small>Address</small>
-      <h5>{{ booking.address }}</h5>
-
-    </div>
-
-    <!-- Date Time -->
-
-    <div class="info-row">
-
-      <div class="info-box">
-        <small>Date</small>
-        <h5>{{ booking.date }}</h5>
-      </div>
-
-      <div class="info-box">
-        <small>Time</small>
-        <h5>{{ booking.time }}</h5>
-      </div>
-
-    </div>
-
-    <!-- Buttons -->
-
-    <div class="action-row">
-
-      <button
-        *ngIf="booking.status=='Accepted'"
-        class="start-btn"
-        (click)="InProgressBooking(booking.id)">
-        Start Work
-      </button>
-
-      <button
-        *ngIf="booking.status=='In Progress'"
-        class="complete-btn"
-        (click)="completeBooking(booking.id)">
-        Mark Completed
-      </button>
-
-      <button
-        *ngIf="booking.status=='Completed'"
-        class="finished-btn">
-        Finished
-      </button>
-
-      <button
-        class="contact-btn"
-        (click)="callPhone(booking.phone)">
-        Contact
-      </button>
 
     </div>
 

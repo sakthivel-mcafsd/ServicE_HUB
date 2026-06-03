@@ -1,44 +1,132 @@
-<div class="container mt-4">
+<div class="available-bookings-container">
 
-  <h3 class="page-title">Available Bookings</h3>
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-icon">
+      <i class="fas fa-chart-line"></i>
+    </div>
 
-  <div class="row">
-    <div class="col-md-6 col-lg-4" *ngFor="let booking of bookings">
+    <div>
+      <h1>Available Bookings</h1>
+      <p>New opportunities waiting for you</p>
+    </div>
+  </div>
 
-      <div class="booking-card">
+  <!-- Summary Card -->
+  <div class="summary-card">
+    <div>
+      <h5>New Opportunities</h5>
+      <h2>{{ bookings.length }}</h2>
+      <p>unassigned bookings ready to accept</p>
+    </div>
 
-        <!-- Header -->
-        <div class="card-top">
-          <h5>{{ booking.service }}</h5>
+    <div class="summary-icon">
+      <i class="fas fa-briefcase"></i>
+    </div>
+  </div>
 
-          <span class="status"
-                [ngClass]="{
-                  'accepted': booking.status === 'Accepted',
-                  'completed': booking.status === 'Completed',
-                  'pending': booking.status === 'Pending'
-                }">
-            {{ booking.status }}
+  <!-- Search Section -->
+  <div class="search-section">
+
+    <div class="search-box">
+      <i class="fas fa-search"></i>
+
+      <input
+        type="text"
+        placeholder="Search by service, customer, or description..."
+        [(ngModel)]="searchText">
+    </div>
+
+    <select class="filter-dropdown">
+      <option>All Services</option>
+    </select>
+
+    <select class="filter-dropdown">
+      <option>Sort by Date</option>
+    </select>
+
+  </div>
+
+  <!-- Booking Cards -->
+  <div *ngFor="let booking of filteredBookings()" class="booking-card">
+
+    <div class="top-border"></div>
+
+    <div class="booking-content">
+
+      <!-- Left -->
+      <div class="booking-details">
+
+        <div class="service-row">
+          <h2>{{ booking.service }}</h2>
+
+          <span class="status-badge">
+            Available
           </span>
         </div>
 
-        <!-- Details -->
-        <p class="customer"><b>👤</b> {{ booking.customer }}</p>
-        <p class="desc">🛠 {{ booking.description }}</p>
+        <p class="description">
+          {{ booking.description }}
+        </p>
 
-        <!-- Footer -->
-        <div class="card-bottom">
-          <small>📅 {{ booking.date }} | ⏰ {{ booking.time }}</small>
+        <!-- Customer -->
+        <div class="customer-box">
+          <div class="customer-icon">
+            <i class="fas fa-user"></i>
+          </div>
 
-          <button class="btn-action"
-                  [disabled]="booking.status === 'Completed'"
-                  (click)="AcceptBooking(booking.id)">
-            ✔ Accepted
-          </button>
+          <div>
+            <small>Customer</small>
+            <h4>{{ booking.customer }}</h4>
+          </div>
+        </div>
+
+        <!-- Date Time -->
+        <div class="date-time-row">
+
+          <div class="info-box">
+            <div class="icon">
+              <i class="fas fa-calendar"></i>
+            </div>
+
+            <div>
+              <small>Date</small>
+              <h5>{{ booking.date }}</h5>
+            </div>
+          </div>
+
+          <div class="info-box">
+            <div class="icon">
+              <i class="fas fa-clock"></i>
+            </div>
+
+            <div>
+              <small>Time</small>
+              <h5>{{ booking.time }}</h5>
+            </div>
+          </div>
+
         </div>
 
       </div>
 
+      <!-- Right -->
+      <div class="action-buttons">
+
+        <button
+          class="accept-btn"
+          (click)="AcceptBooking(booking.id)">
+          ✔ Accept Booking
+        </button>
+
+        <button class="details-btn">
+          → View Details
+        </button>
+
+      </div>
+
     </div>
+
   </div>
 
 </div>
