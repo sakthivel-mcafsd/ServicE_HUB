@@ -11,6 +11,7 @@ import { BookingSlideComponent } from './booking/booking-slide/booking-slide.com
 import { AvailableBookingsComponent} from './service/available-bookings/available-bookings.component';
 import {AssignedBookingsComponent} from './service/my-assigned-bookings/my-assigned-bookings.component';
 import{VerifyComponent} from'./auth/verify/verify.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 const routes: Routes = [
 
@@ -32,7 +33,7 @@ const routes: Routes = [
       { path: 'bookingpage', component: BookingServiceComponent },
       { path: 'mybooking', component: MybookingComponent },
       { path: 'slide/:id', component: BookingSlideComponent },
-      { path: '', redirectTo: 'bookingpage', pathMatch: 'full' }
+      { path: '', redirectTo: 'bookingpage', pathMatch: 'full' },
     ]
   },
 
@@ -46,6 +47,10 @@ const routes: Routes = [
       { path: '', redirectTo: 'service_body', pathMatch: 'full' }
     ]
   },
+   
+  // Profile
+  { path: 'user-profile', component: UserProfileComponent },
+  
 
   // Wildcard
   { path: '**', redirectTo: 'home' }

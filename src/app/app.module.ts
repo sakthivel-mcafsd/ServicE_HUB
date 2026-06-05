@@ -24,6 +24,7 @@ import { AuthInterceptor } from './auth.interceptor';
 import { AlertPopupComponent } from './alert-popup/alert-popup.component';
 import {AssignedBookingsComponent} from './service/my-assigned-bookings/my-assigned-bookings.component';
 import { VerifyComponent } from './auth/verify/verify.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 
 @NgModule({
@@ -45,6 +46,7 @@ import { VerifyComponent } from './auth/verify/verify.component';
     BookingSlideComponent,
     AlertPopupComponent,
     VerifyComponent,
+    UserProfileComponent,
     
   ],
   imports: [

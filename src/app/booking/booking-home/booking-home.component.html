@@ -15,8 +15,16 @@
     <!-- RIGHT -->
     <div class="header-right">
  
-      <span class="badge bg-light text-dark px-3 py-2">
-        Welcome, <strong style="color: #5b4cf3;">{{ userName }}</strong>
+      <span class="badge bg-light text-dark px-3 py-2 d-flex align-items-center gap-2">
+
+        <span>Welcome,</span>
+
+          <a routerLink="/user-profile" class="user-profile-icon">
+            <i class="bi bi-person-circle"></i>
+          </a>
+
+        <strong style="color: #5b4cf3;">{{ userName }}</strong>
+
       </span>
  
       <!-- DESKTOP MENU -->

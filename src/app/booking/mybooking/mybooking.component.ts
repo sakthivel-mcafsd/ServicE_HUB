@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Booking, BookingStatus } from '../../models/booking';
+import { Booking, BookingStatus } from '../../models/model';
 import { BookingService } from '../../services/booking.service';
 import { AuthService } from '../../services/auth.service';
 

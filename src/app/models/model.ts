@@ -23,3 +23,16 @@ export interface Booking {
   phone?:string;
 
 }
+
+
+export interface UserProfile {
+  id: number;
+  fullName: string;
+  email: string;
+  mobileNumber: string;
+  dateOfBirth: string;
+  gender: string;
+  role: string;
+  address: string;
+  location: string;
+}
